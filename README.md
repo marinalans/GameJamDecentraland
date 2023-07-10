@@ -11,7 +11,7 @@ This scene uses a Blockade Games’ [text to skybox tool](http://skybox.blockade
 
 Camila Carvalho
 
-Gabriel Tanscheit Alves
+Gabriel Tanscheit Alves - Ethereum Wallet 0x855Ca01C1C4DAF3De7dF173fECb8dF24Ed2ff7ab
 
 Guilherme Arantes
 

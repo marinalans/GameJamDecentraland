@@ -1,4 +1,4 @@
-import { MeshCollider, Transform, engine, InputAction, Material, MeshRenderer, PointerEventType, inputSystem, pointerEventsSystem, Entity } from '@dcl/sdk/ecs'
+import { MeshCollider, Transform, engine, InputAction, Material, MeshRenderer, PointerEventType, inputSystem, pointerEventsSystem, Entity, VisibilityComponent } from '@dcl/sdk/ecs'
 import { movePlayerTo } from '~system/RestrictedActions'
 import { Quaternion, Vector3 } from '@dcl/sdk/math'
 import { height, sceneSizeX, sceneSizeZ, radiusMultiplier } from './resources'
@@ -7,17 +7,12 @@ import { Skybox } from './skybox'
 const skyboxRoot = engine.addEntity()
 Transform.create(skyboxRoot, { position: Vector3.create(sceneSizeX / 2, height / 2, sceneSizeZ / 2) })
 
-const skyboxRootBedroom = engine.addEntity()
-Transform.create(skyboxRoot, { position: Vector3.create(sceneSizeX / 2, 1, sceneSizeZ / 2) })
-
 export function main() {
 
 	let i = 1, j = 1
 
-	const bedroom = new Skybox(0, skyboxRootBedroom)
-	bedroom.show()
-
 	const dream1 = new Skybox(1, skyboxRoot)
+	dream1.show()
 	const dream2 = new Skybox(2, skyboxRoot)
 	const dream3 = new Skybox(3, skyboxRoot)
 	const dream4 = new Skybox(4, skyboxRoot)
@@ -78,6 +73,7 @@ export function main() {
 		}
 		,
 		function () {
+
 			j++
 			switch (j) {
 				case 1: 
@@ -95,8 +91,11 @@ export function main() {
 				case 4: 
 					dream3.hide()
 					dream4.show()
-				 	j = 0
 				break;
+			}
+			
+			if(j==4) {
+				j = 0
 			}
 			
 			Transform.getMutable(sphere).position = Vector3.create(sceneSizeX/ 2 +  Math.random() * 10, height / 2 + Math.random() * 10, sceneSizeZ/ 2 - Math.random() * 10)
