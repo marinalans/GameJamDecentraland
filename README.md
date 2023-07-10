@@ -9,13 +9,13 @@ This scene uses a Blockade Games’ [text to skybox tool](http://skybox.blockade
 
 ### The team:
 
-Milla Granger
+Camila Carvalho
 
 Gabriel Tanscheit Alves
 
 Guilherme Arantes
 
-Marina Lans
+Marina Lans - Ethereum Wallet 0x3730C7D889a6cC88D42DD1C822243804D1492B3a
 
 Maiara Borges Venâncio
 

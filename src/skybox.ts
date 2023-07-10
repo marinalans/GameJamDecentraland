@@ -2,54 +2,19 @@ import { MeshCollider, Transform, engine, InputAction, Material, MeshRenderer, P
 import { Quaternion, Vector3 } from '@dcl/sdk/math'
 import { height, sceneSizeX, sceneSizeZ, radiusMultiplier } from './resources'
 
-const skyboxRoot = engine.addEntity()
-Transform.create(skyboxRoot, { position: Vector3.create(sceneSizeX / 2, height / 2, sceneSizeZ / 2) })
-
-//Top 
-const skyboxTop = engine.addEntity()
-Transform.create(skyboxTop, {
-    position: Vector3.create(0, height / 2 * radiusMultiplier, 0),
-    rotation: Quaternion.fromEulerDegrees(-90, 0, 0),
-    scale: Vector3.create(sceneSizeX * radiusMultiplier, height * radiusMultiplier, sceneSizeZ * radiusMultiplier),
-    parent: skyboxRoot
-})
-MeshRenderer.setPlane(skyboxTop)
-Material.setBasicMaterial(skyboxTop, {
-    texture: Material.Texture.Common({
-        src: "images/glasses.png"
-    })
-})
-
-
-//Bottom
-const skyboxBottom = engine.addEntity()
-Transform.create(skyboxBottom, {
-    position: Vector3.create(0, -height / 2 * radiusMultiplier, 0),
-    rotation: Quaternion.fromEulerDegrees(90, 0, 0),
-    scale: Vector3.create(sceneSizeX * radiusMultiplier, height * radiusMultiplier, sceneSizeZ * radiusMultiplier),
-    parent: skyboxRoot
-})
-MeshRenderer.setPlane(skyboxBottom)
-Material.setBasicMaterial(skyboxBottom, {
-    texture: Material.Texture.Common({
-        src: "images/floor.jpg"
-    })
-})
-
 export class Skybox {
     private skyboxFront: Entity
     private skyboxLeft: Entity
     private skyboxBack: Entity
     private skyboxRight: Entity
 
-    constructor(dreamNumber: any) {
-               
+    constructor(dreamNumber: any, pai: Entity) {
         //Front
         this.skyboxFront = engine.addEntity()
         Transform.create( this.skyboxFront, {
             position: Vector3.create(0, 0, sceneSizeZ / 2 * radiusMultiplier),
             scale: Vector3.create(sceneSizeX * radiusMultiplier, height * radiusMultiplier, sceneSizeZ * radiusMultiplier),
-            parent:  skyboxRoot
+            parent:  pai
         })
         MeshRenderer.setPlane( this.skyboxFront)
         Material.setBasicMaterial(this.skyboxFront, {
@@ -65,7 +30,7 @@ export class Skybox {
             position: Vector3.create(-sceneSizeX / 2 * radiusMultiplier, 0, 0),
             rotation: Quaternion.fromEulerDegrees(0, -90, 0),
             scale: Vector3.create(sceneSizeX * radiusMultiplier, height * radiusMultiplier, sceneSizeZ * radiusMultiplier),
-            parent: skyboxRoot
+            parent: pai
         })
         MeshRenderer.setPlane(this.skyboxLeft)
         Material.setBasicMaterial(this.skyboxLeft, {
@@ -81,7 +46,7 @@ export class Skybox {
             position: Vector3.create(0, 0, -sceneSizeZ / 2 * radiusMultiplier),
             rotation: Quaternion.fromEulerDegrees(0, 180, 0),
             scale: Vector3.create(sceneSizeX * radiusMultiplier, height * radiusMultiplier, sceneSizeZ * radiusMultiplier),
-            parent: skyboxRoot
+            parent: pai
         })
         MeshRenderer.setPlane(this.skyboxBack)
         Material.setBasicMaterial(this.skyboxBack, {
@@ -97,7 +62,7 @@ export class Skybox {
             position: Vector3.create(sceneSizeX / 2 * radiusMultiplier, 0, 0),
             rotation: Quaternion.fromEulerDegrees(0, 90, 0),
             scale: Vector3.create(sceneSizeX * radiusMultiplier, height * radiusMultiplier, sceneSizeZ * radiusMultiplier),
-            parent: skyboxRoot
+            parent: pai
         })
         MeshRenderer.setPlane(this.skyboxRight)
         Material.setBasicMaterial(this.skyboxRight, {

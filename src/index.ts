@@ -4,19 +4,26 @@ import { Quaternion, Vector3 } from '@dcl/sdk/math'
 import { height, sceneSizeX, sceneSizeZ, radiusMultiplier } from './resources'
 import { Skybox } from './skybox'
 
-let dreams: Skybox[]
+const skyboxRoot = engine.addEntity()
+Transform.create(skyboxRoot, { position: Vector3.create(sceneSizeX / 2, height / 2, sceneSizeZ / 2) })
+
+const skyboxRootBedroom = engine.addEntity()
+Transform.create(skyboxRoot, { position: Vector3.create(sceneSizeX / 2, 1, sceneSizeZ / 2) })
 
 export function main() {
 
 	let i = 1, j = 1
-	const MAX_DREAM = 6
 
-	while (i<= MAX_DREAM) {
-		dreams.push(new Skybox(i))
-	}
+	const bedroom = new Skybox(0, skyboxRootBedroom)
+	bedroom.show()
+
+	const dream1 = new Skybox(1, skyboxRoot)
+	const dream2 = new Skybox(2, skyboxRoot)
+	const dream3 = new Skybox(3, skyboxRoot)
+	const dream4 = new Skybox(4, skyboxRoot)
 
 
-	let carpetFlyer = engine.addEntity()
+	const carpetFlyer = engine.addEntity()
 	Transform.create(carpetFlyer, {
 		position: Vector3.create(sceneSizeX / 2, height / 2, sceneSizeZ / 2),
 		scale: Vector3.create(5, 0.1, 4)
@@ -30,13 +37,13 @@ export function main() {
 	})
 
 	
-	const clickableEntity = engine.addEntity()
-	MeshRenderer.setBox(clickableEntity)
-	MeshCollider.setBox(clickableEntity)
-	Transform.create(clickableEntity, { position: Vector3.create(sceneSizeX / 2, 1, sceneSizeZ / 2) })
+	const bed = engine.addEntity()
+	MeshRenderer.setBox(bed)
+	MeshCollider.setBox(bed)
+	Transform.create(bed, { position: Vector3.create(sceneSizeX / 2, 1, sceneSizeZ / 2) })
 	pointerEventsSystem.onPointerDown(
 		{
-			entity: clickableEntity, 
+			entity: bed, 
 			opts: {
 				button: InputAction.IA_POINTER,
 				hoverText: 'Sleep'
@@ -52,7 +59,7 @@ export function main() {
 	Transform.create(sphere, {
 		position: Vector3.create(sceneSizeX/ 2 - Math.random() * 0, height / 2 + Math.random() * 10, sceneSizeZ/ 2 - Math.random() * 10),
 		rotation: Quaternion.fromEulerDegrees(0, 90, 0),
-		scale: Vector3.create(1, 1, 1)
+		scale: Vector3.create(0.8,0.8,0.8)
 	})
 	MeshRenderer.setSphere(sphere)
 	MeshCollider.setSphere(sphere)
@@ -71,30 +78,61 @@ export function main() {
 		}
 		,
 		function () {
-			switch(j){
-				case 1:
-					dreams[MAX_DREAM].hide()
-					dreams[j].hide()
-					dreams[j++].show()
-					break;
-				case MAX_DREAM:
-					dreams[j].hide()
-					j = 1
-					dreams[j].show()
-					break;
-				default:
-					dreams[j].hide()
-					dreams[j++].show()
-					break;
-			} 			
+			j++
+			switch (j) {
+				case 1: 
+					dream4.hide()
+					dream1.show()
+				break;
+				case 2: 
+					dream1.hide()
+					dream2.show()
+				break; 
+				case 3: 
+					dream2.hide()
+					dream3.show()
+				break; 
+				case 4: 
+					dream3.hide()
+					dream4.show()
+				 	j = 0
+				break;
+			}
 			
-			Transform.create(sphere, {
-				position: Vector3.create(sceneSizeX/ 2 - Math.random() * 0, height / 2 + Math.random() * 10, sceneSizeZ/ 2 - Math.random() * 10),
-				rotation: Quaternion.fromEulerDegrees(0, 90, 0),
-				scale: Vector3.create(1, 1, 1)
-			})
+			Transform.getMutable(sphere).position = Vector3.create(sceneSizeX/ 2 +  Math.random() * 10, height / 2 + Math.random() * 10, sceneSizeZ/ 2 - Math.random() * 10)
+				
 		}
 	)
+
+	//Top 
+	const skyboxTop = engine.addEntity()
+	Transform.create(skyboxTop, {
+		position: Vector3.create(0, height / 2 * radiusMultiplier, 0),
+		rotation: Quaternion.fromEulerDegrees(-90, 0, 0),
+		scale: Vector3.create(sceneSizeX * radiusMultiplier, height * radiusMultiplier, sceneSizeZ * radiusMultiplier),
+		parent: skyboxRoot
+	})
+	MeshRenderer.setPlane(skyboxTop)
+	Material.setBasicMaterial(skyboxTop, {
+		texture: Material.Texture.Common({
+			src: "images/glasses.png"
+		})
+	})
+
+	//Bottom
+	const skyboxBottom = engine.addEntity()
+	Transform.create(skyboxBottom, {
+		position: Vector3.create(0, -height / 2 * radiusMultiplier, 0),
+		rotation: Quaternion.fromEulerDegrees(90, 0, 0),
+		scale: Vector3.create(sceneSizeX * radiusMultiplier, height * radiusMultiplier, sceneSizeZ * radiusMultiplier),
+		parent: skyboxRoot
+	})
+	MeshRenderer.setPlane(skyboxBottom)
+	Material.setBasicMaterial(skyboxBottom, {
+		texture: Material.Texture.Common({
+			src: "images/floor.jpg"
+		})
+	})
 	
 	
 }
