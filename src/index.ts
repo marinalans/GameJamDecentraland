@@ -98,7 +98,7 @@ export function main() {
 				j = 0
 			}
 			
-			Transform.getMutable(sphere).position = Vector3.create(sceneSizeX/ 2 +  Math.random() * 10, height / 2 + Math.random() * 10, sceneSizeZ/ 2 - Math.random() * 10)
+			//Transform.getMutable(sphere).position = Vector3.create(sceneSizeX/ 2 +  Math.random() * 10, height / 2 + Math.random() * 10, sceneSizeZ/ 2 - Math.random() * 10)
 				
 		}
 	)
