@@ -2,12 +2,11 @@ import { MeshCollider, Transform, engine, InputAction, Material, MeshRenderer, P
 import { Quaternion, Vector3 } from '@dcl/sdk/math'
 import { height, sceneSizeX, sceneSizeZ, radiusMultiplier } from './resources'
 
-
-let skyboxRoot = engine.addEntity()
+const skyboxRoot = engine.addEntity()
 Transform.create(skyboxRoot, { position: Vector3.create(sceneSizeX / 2, height / 2, sceneSizeZ / 2) })
 
 //Top 
-let skyboxTop = engine.addEntity()
+const skyboxTop = engine.addEntity()
 Transform.create(skyboxTop, {
     position: Vector3.create(0, height / 2 * radiusMultiplier, 0),
     rotation: Quaternion.fromEulerDegrees(-90, 0, 0),
@@ -23,7 +22,7 @@ Material.setBasicMaterial(skyboxTop, {
 
 
 //Bottom
-let skyboxBottom = engine.addEntity()
+const skyboxBottom = engine.addEntity()
 Transform.create(skyboxBottom, {
     position: Vector3.create(0, -height / 2 * radiusMultiplier, 0),
     rotation: Quaternion.fromEulerDegrees(90, 0, 0),
@@ -37,7 +36,6 @@ Material.setBasicMaterial(skyboxBottom, {
     })
 })
 
-
 export class Skybox {
     private skyboxFront: Entity
     private skyboxLeft: Entity
@@ -45,7 +43,7 @@ export class Skybox {
     private skyboxRight: Entity
 
     constructor(dreamNumber: any) {
-        
+               
         //Front
         this.skyboxFront = engine.addEntity()
         Transform.create( this.skyboxFront, {
@@ -60,7 +58,7 @@ export class Skybox {
             })
         })
         VisibilityComponent.create(this.skyboxFront, { visible: false })
-
+        
         //Left
         this.skyboxLeft = engine.addEntity()
         Transform.create(this.skyboxLeft, {
@@ -76,7 +74,7 @@ export class Skybox {
             })
         })
         VisibilityComponent.create(this.skyboxLeft, { visible: false })
-
+        
         //Back
         this.skyboxBack = engine.addEntity()
         Transform.create(this.skyboxBack, {
@@ -92,7 +90,7 @@ export class Skybox {
             })
         })
         VisibilityComponent.create(this.skyboxBack, { visible: false })
-
+        
         //Right
         this.skyboxRight = engine.addEntity()
         Transform.create(this.skyboxRight, {
@@ -111,17 +109,17 @@ export class Skybox {
     }
 
     show(): void{
-        VisibilityComponent.create(this.skyboxFront, { visible: true })
-        VisibilityComponent.create(this.skyboxLeft, { visible: true })
-        VisibilityComponent.create(this.skyboxBack, { visible: true })
-        VisibilityComponent.create(this.skyboxRight, { visible: true })   
+        VisibilityComponent.getMutable(this.skyboxFront).visible = true
+        VisibilityComponent.getMutable(this.skyboxLeft).visible = true
+        VisibilityComponent.getMutable(this.skyboxBack).visible = true
+        VisibilityComponent.getMutable(this.skyboxRight).visible = true   
     }
 
     hide(): void{
-        VisibilityComponent.create(this.skyboxFront, { visible: false })
-        VisibilityComponent.create(this.skyboxLeft, { visible: false })
-        VisibilityComponent.create(this.skyboxBack, { visible: false })
-        VisibilityComponent.create(this.skyboxRight, { visible: false })   
+        VisibilityComponent.getMutable(this.skyboxFront).visible = false
+        VisibilityComponent.getMutable(this.skyboxLeft).visible = false
+        VisibilityComponent.getMutable(this.skyboxBack).visible = false
+        VisibilityComponent.getMutable(this.skyboxRight).visible = false   
     }
     
 }

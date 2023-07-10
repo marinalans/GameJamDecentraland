@@ -9,15 +9,12 @@ let dreams: Skybox[]
 export function main() {
 
 	let i = 1, j = 1
-	const MAX_DREAM = 4
+	const MAX_DREAM = 6
 
-	while(i < MAX_DREAM){
-		const dream = new Skybox(i)
-		if(i == 1) dream.show()
-		dreams.push(dream)
-		i++
+	while (i<= MAX_DREAM) {
+		dreams.push(new Skybox(i))
 	}
-	
+
 
 	let carpetFlyer = engine.addEntity()
 	Transform.create(carpetFlyer, {
@@ -74,10 +71,23 @@ export function main() {
 		}
 		,
 		function () {
-			dreams[j-1].hide()
-			if(j == MAX_DREAM) j = 1
-			dreams[j].show()	
-			j++		
+			switch(j){
+				case 1:
+					dreams[MAX_DREAM].hide()
+					dreams[j].hide()
+					dreams[j++].show()
+					break;
+				case MAX_DREAM:
+					dreams[j].hide()
+					j = 1
+					dreams[j].show()
+					break;
+				default:
+					dreams[j].hide()
+					dreams[j++].show()
+					break;
+			} 			
+			
 			Transform.create(sphere, {
 				position: Vector3.create(sceneSizeX/ 2 - Math.random() * 0, height / 2 + Math.random() * 10, sceneSizeZ/ 2 - Math.random() * 10),
 				rotation: Quaternion.fromEulerDegrees(0, 90, 0),
