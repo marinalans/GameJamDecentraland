@@ -1,4 +1,4 @@
-import { MeshCollider, Transform, engine, InputAction, Material, MeshRenderer, PointerEventType, inputSystem, pointerEventsSystem, Entity, VisibilityComponent } from '@dcl/sdk/ecs'
+import { MeshCollider, Transform, engine, InputAction, Material, MeshRenderer, PointerEventType, inputSystem, pointerEventsSystem, Entity, VisibilityComponent, AudioStream, AudioSource } from '@dcl/sdk/ecs'
 import { movePlayerTo } from '~system/RestrictedActions'
 import { Quaternion, Vector3 } from '@dcl/sdk/math'
 import { height, sceneSizeX, sceneSizeZ, radiusMultiplier } from './resources'
@@ -17,6 +17,7 @@ export function main() {
 	const dream3 = new Skybox(3, skyboxRoot)
 	const dream4 = new Skybox(4, skyboxRoot)
 
+	//Radios.JAZZ
 
 	const carpetFlyer = engine.addEntity()
 	Transform.create(carpetFlyer, {
@@ -49,7 +50,7 @@ export function main() {
 			movePlayerTo({ newRelativePosition: Vector3.create(sceneSizeX / 2, height / 2 + 2, sceneSizeZ / 2) })
 		}
 	)
-
+	
 	const sphere = engine.addEntity()
 	Transform.create(sphere, {
 		position: Vector3.create(sceneSizeX/ 2 - Math.random() * 0, height / 2 + Math.random() * 10, sceneSizeZ/ 2 - Math.random() * 10),
@@ -63,6 +64,12 @@ export function main() {
 			src: "images/sphere.png"
 		})
 	})
+	AudioSource.createOrReplace(sphere, {
+        audioClipUrl: 'sounds/click.mp3',
+        loop: false,
+        playing: false,
+		volume: 1
+    })
 	pointerEventsSystem.onPointerDown(
 		{
 			entity: sphere, 
@@ -73,7 +80,7 @@ export function main() {
 		}
 		,
 		function () {
-
+			AudioSource.getMutable(sphere).playing = true
 			j++
 			switch (j) {
 				case 1: 
